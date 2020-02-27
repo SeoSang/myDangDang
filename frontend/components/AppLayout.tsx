@@ -39,7 +39,11 @@ const AppLayout: FC<{ children: any }> = ({ children }) => {
       </Row>
       <Row>
         <Col xs={24} md={8}>
-          <TitleDiv>My DangDang</TitleDiv>
+          <TitleDiv>
+            <span style={{ color: "#eb4d4b" }}>My</span>
+            <span style={{ color: "#f0932b" }}>Dang</span>
+            <span style={{ color: "#f9ca24" }}>Dang</span>
+          </TitleDiv>
         </Col>
         <Col xs={24} md={16}>
           <Menu selectedKeys={[]} mode='horizontal'>
