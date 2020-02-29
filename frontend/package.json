@@ -40,6 +40,8 @@
     }
   },
   "dependencies": {
+    "@ant-design/codemod-v4": "^1.0.0-alpha.19",
+    "@ant-design/compatible": "0.0.1-rc.1",
     "antd": "^4.0.0",
     "babel-plugin-styled-components": "^1.10.7",
     "next": "9.2.2",
