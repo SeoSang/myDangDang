@@ -1,6 +1,7 @@
 import React, { FC } from "react"
 import styled from "styled-components"
-import { Menu, Icon, Row, Col, Typography } from "antd"
+import { Menu, Row, Col, Typography } from "antd"
+import { HeartOutlined, TrophyOutlined, TeamOutlined } from "@ant-design/icons"
 import Link from "next/link"
 const { SubMenu } = Menu
 const { Title } = Typography
@@ -48,17 +49,17 @@ const AppLayout: FC<{ children: any }> = ({ children }) => {
         <Col xs={24} md={16}>
           <Menu selectedKeys={[]} mode='horizontal'>
             <Menu.Item key='mail'>
-              <Icon type='heart' />
+              <HeartOutlined />
               댕댕이 자랑
             </Menu.Item>
             <Menu.Item key='app' disabled>
-              <Icon type='switcher' />
-              댕댕이 일기
+              <TrophyOutlined />
+              댕댕이 월드컵
             </Menu.Item>
             <SubMenu
               title={
                 <span className='submenu-title-wrapper'>
-                  <Icon type='read' />
+                  <TeamOutlined />
                   댕댕이 정보
                 </span>
               }
@@ -73,9 +74,9 @@ const AppLayout: FC<{ children: any }> = ({ children }) => {
               </Menu.ItemGroup>
             </SubMenu>
             <Menu.Item key='alipay'>
-              <a href='/' target='_blank' rel='noopener noreferrer'>
-                로그인
-              </a>
+              <Link href='/login'>
+                <a>로그인</a>
+              </Link>
             </Menu.Item>
           </Menu>
         </Col>
