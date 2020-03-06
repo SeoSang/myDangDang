@@ -18,6 +18,9 @@ const TitleDiv = styled.div`
   font-family: Lilita One;
   font-size: 2rem;
 `
+const PageDiv = styled.div`
+  padding: 30px;
+`
 
 const AppLayout: FC<{ children: any }> = ({ children }) => {
   return (
@@ -49,8 +52,12 @@ const AppLayout: FC<{ children: any }> = ({ children }) => {
         <Col xs={24} md={16}>
           <Menu selectedKeys={[]} mode='horizontal'>
             <Menu.Item key='mail'>
-              <HeartOutlined />
-              댕댕이 자랑
+              <Link href='/boast'>
+                <a>
+                  <HeartOutlined />
+                  댕댕이 자랑
+                </a>
+              </Link>
             </Menu.Item>
             <Menu.Item key='app' disabled>
               <TrophyOutlined />
@@ -81,7 +88,7 @@ const AppLayout: FC<{ children: any }> = ({ children }) => {
           </Menu>
         </Col>
       </Row>
-      {children}
+      <PageDiv>{children}</PageDiv>
     </>
   )
 }
