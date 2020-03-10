@@ -18,8 +18,12 @@ const TitleDiv = styled.div`
   font-family: Lilita One;
   font-size: 2rem;
 `
-const PageDiv = styled.div`
+export const PageDiv = styled.div`
   padding: 30px;
+`
+export const BackgroundDiv = styled.div`
+  background-color: #fafafa;
+  height: 90vh;
 `
 
 const AppLayout: FC<{ children: any }> = ({ children }) => {
@@ -88,7 +92,9 @@ const AppLayout: FC<{ children: any }> = ({ children }) => {
           </Menu>
         </Col>
       </Row>
-      <PageDiv>{children}</PageDiv>
+      <BackgroundDiv>
+        <PageDiv>{children}</PageDiv>
+      </BackgroundDiv>
     </>
   )
 }
