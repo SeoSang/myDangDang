@@ -63,9 +63,13 @@ const AppLayout: FC<{ children: any }> = ({ children }) => {
                 </a>
               </Link>
             </Menu.Item>
-            <Menu.Item key='app' disabled>
-              <TrophyOutlined />
-              댕댕이 월드컵
+            <Menu.Item key='app'>
+              <Link href='/randomdog'>
+                <a>
+                  <TrophyOutlined />
+                  랜덤 강아지
+                </a>
+              </Link>
             </Menu.Item>
             <SubMenu
               title={
