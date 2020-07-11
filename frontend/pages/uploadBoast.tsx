@@ -34,13 +34,13 @@ const UploadBoast = () => {
   const [text, setText] = useState("")
 
   const onChangeTitle = useCallback(
-    e => {
+    (e) => {
       setTitle(e.target.value)
     },
     [title],
   )
   const onChangeText = useCallback(
-    e => {
+    (e) => {
       setText(e.target.value)
     },
     [text],
@@ -75,6 +75,7 @@ const UploadBoast = () => {
                   style={{ margin: "2rem 0", height: "14rem" }}
                   maxLength={100}
                   placeholder='댕댕이를 자랑해주세요'
+                  onChange={onChangeText}
                   value={text}
                 />
                 <Button type='primary' href='/'>
