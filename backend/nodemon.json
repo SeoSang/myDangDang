@@ -1,5 +1,5 @@
 {
-  "watch": ["index.js", "routes", "config", "passport", "models", "nodemon.json"],
-  "exec ": "node index.js",
+  "watch": ["index.ts", "routes", "config", "passport", "models", "nodemon.json"],
+  "exec ": "node index.ts",
   "ext": "js json"
 }
