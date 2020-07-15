@@ -1,6 +1,9 @@
 import React from "react"
 import Head from "next/head"
+import withRedux from "next-redux-wrapper"
+import withReduxSaga from "next-redux-saga"
 import AppLayout from "../components/AppLayout"
+import { Provider } from "react-redux"
 import createSagaMiddleware from "redux-saga"
 import "../components/UploadImage.css"
 import { StoreState } from "../reducers"
@@ -10,9 +13,9 @@ import { Middleware, applyMiddleware, compose, createStore } from "redux"
 import { AllActionTypes } from "../custom/types/general"
 import reducer from "../reducers"
 
-const MyDangDang = ({ Component, pageProps }) => {
+const MyDangDang = ({ Component, store, pageProps }) => {
   return (
-    <>
+    <Provider store={store}>
       <Head>
         <title>MyDangDang</title>
         <link
@@ -37,7 +40,7 @@ const MyDangDang = ({ Component, pageProps }) => {
       <AppLayout>
         <Component {...pageProps} />
       </AppLayout>
-    </>
+    </Provider>
   )
 }
 
@@ -70,9 +73,9 @@ const middle = (initialState: StoreState, options: any) => {
             ? (window as any).__REDUX_DEVTOOLS_EXTENSION__({ trace: true, traceLimit: 25 })
             : (f: any) => f,
         )
-  const store = createStore(reducer, initialState as any, composedEnhancers)
-  ;(store as any).sagaTask = sagaMiddleware.run(rootSaga)
+  const store: any = createStore(reducer, initialState as any, composedEnhancers)
+  store.sagaTask = sagaMiddleware.run(rootSaga)
   return store
 }
 
-export default MyDangDang
+export default withRedux(middle)(withReduxSaga(MyDangDang))

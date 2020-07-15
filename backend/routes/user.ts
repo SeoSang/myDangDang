@@ -8,7 +8,7 @@ router.get("/", (req, res) => {})
 router.get("/:id", (req, res) => {})
 
 // 회원가입
-router.post("/", async (req: express.Request, res, next) => {
+router.post("/signup", async (req: express.Request, res, next) => {
   try {
     const exUser = await user.findOne({
       where: {

@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import { Form, Input, Tooltip, Select, Row, Col, Checkbox, Button } from "antd"
 import { QuestionCircleOutlined } from "@ant-design/icons"
-import axios from "axios"
-import { SignUpRequestData } from "../custom/types/reducerTypes_user"
+import { useDispatch } from "react-redux"
+import { SignUpRequestData, SIGN_UP_REQUEST } from "../custom/types/reducerTypes_user"
 
 const formItemLayout = {
   labelCol: {
@@ -29,13 +29,17 @@ const tailFormItemLayout = {
 
 const SignupForm = () => {
   const [form] = Form.useForm()
+  const dispatch = useDispatch()
 
-  const onFinish = async (values: SignUpRequestData) => {
+  const onFinish = (values: SignUpRequestData) => {
     console.log("Received values of form: ", values)
     if (!values.agreement) {
       return alert("이용약관 동의를 눌러주세요!")
     }
-    await axios.post("locl")
+    dispatch({
+      type: SIGN_UP_REQUEST,
+      data: values,
+    })
   }
 
   return (

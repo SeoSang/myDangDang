@@ -6,6 +6,9 @@ import {
   ADD_POST_SUCCESS,
   ADD_POST_FAILURE,
 } from "../custom/types/reducerTypes_post"
+import { BACKEND_URL } from "../custom/types/general"
+
+axios.defaults.baseURL = `${BACKEND_URL}/api`
 
 function addPostAPI(postData) {
   return axios.post("/post", postData, {
