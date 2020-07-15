@@ -1,11 +1,13 @@
 import express from "express"
 import morgan from "morgan"
+import dotenv from "dotenv"
 import userRouter from "./routes/user"
 import postRouter from "./routes/post"
 import db from "./models"
 import cors from "cors"
 const IS_PRODUCTION = process.env.NODE_ENV === "production"
 
+dotenv.config()
 var app = express()
 
 db.sequelize?.sync()
@@ -31,8 +33,8 @@ if (IS_PRODUCTION) {
   )
 }
 
-app.get("/api/user", userRouter)
-app.get("/api/post", postRouter)
+app.use("/api/user", userRouter)
+app.use("/api/post", postRouter)
 
 app.get("/", (req, res) => {
   res.send("Sever main")

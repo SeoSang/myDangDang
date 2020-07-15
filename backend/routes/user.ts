@@ -10,6 +10,7 @@ router.get("/:id", (req, res) => {})
 // 회원가입
 router.post("/signup", async (req: express.Request, res, next) => {
   try {
+    console.log("routes__user.ts")
     const exUser = await user.findOne({
       where: {
         email: req.body.email,
@@ -28,6 +29,8 @@ router.post("/signup", async (req: express.Request, res, next) => {
     return res.status(200).json(newUser)
   } catch (e) {
     console.error(e)
+    console.log("routes__user__fail.ts")
+
     return next(e)
   }
 })
