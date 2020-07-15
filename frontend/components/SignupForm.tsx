@@ -1,57 +1,9 @@
 import React, { useState } from "react"
-import {
-  Form,
-  Input,
-  Tooltip,
-  Cascader,
-  Select,
-  Row,
-  Col,
-  Checkbox,
-  Button,
-  AutoComplete,
-} from "antd"
+import { Form, Input, Tooltip, Select, Row, Col, Checkbox, Button } from "antd"
 import { QuestionCircleOutlined } from "@ant-design/icons"
-
-import { Mention } from "@ant-design/compatible"
+import axios from "axios"
 
 const { Option } = Select
-const AutoCompleteOption = AutoComplete.Option
-
-const residences = [
-  {
-    value: "zhejiang",
-    label: "Zhejiang",
-    children: [
-      {
-        value: "hangzhou",
-        label: "Hangzhou",
-        children: [
-          {
-            value: "xihu",
-            label: "West Lake",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: "jiangsu",
-    label: "Jiangsu",
-    children: [
-      {
-        value: "nanjing",
-        label: "Nanjing",
-        children: [
-          {
-            value: "zhonghuamen",
-            label: "Zhong Hua Men",
-          },
-        ],
-      },
-    ],
-  },
-]
 
 const formItemLayout = {
   labelCol: {
@@ -76,35 +28,24 @@ const tailFormItemLayout = {
   },
 }
 
+interface SignupValues {
+  email: string
+  password: string
+  confirm: string
+  nickname: string
+  agreement: Boolean
+}
+
 const SignupForm = () => {
   const [form] = Form.useForm()
 
-  const onFinish = values => {
+  const onFinish = async (values: SignupValues) => {
     console.log("Received values of form: ", values)
-  }
-
-  const prefixSelector = (
-    <Form.Item name='prefix' noStyle>
-      <Select style={{ width: 70 }}>
-        <Option value='82'>+82</Option>
-      </Select>
-    </Form.Item>
-  )
-
-  const [autoCompleteResult, setAutoCompleteResult] = useState([])
-
-  const onWebsiteChange = value => {
-    if (!value) {
-      setAutoCompleteResult([])
-    } else {
-      setAutoCompleteResult([".com", ".org", ".net"].map(domain => `${value}${domain}`))
+    if (!values.agreement) {
+      return alert("이용약관 동의를 눌러주세요!")
     }
+    await axios.post("locl")
   }
-
-  const websiteOptions = autoCompleteResult.map(website => ({
-    label: website,
-    value: website,
-  }))
 
   return (
     <Form
@@ -184,31 +125,6 @@ const SignupForm = () => {
         rules={[{ required: true, message: "닉네임을 입력해주세요!", whitespace: true }]}
       >
         <Input />
-      </Form.Item>
-
-      <Form.Item
-        name='phone'
-        label='전화번호'
-        rules={[{ required: true, message: "전화번호를 입력해주세요!" }]}
-      >
-        <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
-      </Form.Item>
-
-      <Form.Item label='Captcha' extra='We must make sure that your are a human.'>
-        <Row gutter={8}>
-          <Col span={12}>
-            <Form.Item
-              name='captcha'
-              noStyle
-              rules={[{ required: true, message: "쓰여진 문자를 입력해주세요!" }]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Button>Get captcha</Button>
-          </Col>
-        </Row>
       </Form.Item>
 
       <Form.Item name='agreement' valuePropName='checked' {...tailFormItemLayout}>

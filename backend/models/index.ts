@@ -15,11 +15,11 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 
 async function doStuffWithUser() {
   const newUser = await User.create({
-    name: "Seo",
+    email: "Seo",
     password: "test",
     nickname: "SeoSang",
   })
-  console.log(newUser.id, newUser.name, newUser.nickname)
+  console.log(newUser.id, newUser.email, newUser.nickname)
 
   const ourUser = await User.findByPk(1, {
     include: [User.associations.posts],

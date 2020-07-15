@@ -14,7 +14,7 @@ import Post from "./post"
 
 interface UserAttributes {
   id: number
-  name: string
+  email: string
   password: string
   nickname: string | null
 }
@@ -24,7 +24,7 @@ interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
 
 export class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
   public id!: number // Note that the `null assertion` `!` is required in strict mode.
-  public name!: string
+  public email!: string
   public password!: string
   public nickname!: string | null // for nullable fields
 
@@ -58,7 +58,7 @@ export const userInit = (sequelize: Sequelize) => {
         autoIncrement: true,
         primaryKey: true,
       },
-      name: {
+      email: {
         type: new DataTypes.STRING(128),
         allowNull: false,
       },
@@ -76,13 +76,13 @@ export const userInit = (sequelize: Sequelize) => {
       collate: "utf8_general_ci", // 한글이 저장돼요
       tableName: "users",
       sequelize, // passing the `sequelize` instance is required
-      modelName: "User", // We need to choose the model name
+      modelName: "User", // We need to choose the model email
     },
   )
 
   User.hasMany(Post, {
     sourceKey: "id",
     foreignKey: "ownerId",
-    as: "posts", // this determines the name in `associations`!
+    as: "posts", // this determines the email in `associations`!
   })
 }
