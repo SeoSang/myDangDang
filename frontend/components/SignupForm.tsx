@@ -2,8 +2,7 @@ import React, { useState } from "react"
 import { Form, Input, Tooltip, Select, Row, Col, Checkbox, Button } from "antd"
 import { QuestionCircleOutlined } from "@ant-design/icons"
 import axios from "axios"
-
-const { Option } = Select
+import { SignUpRequestData } from "../custom/types/reducerTypes_user"
 
 const formItemLayout = {
   labelCol: {
@@ -28,18 +27,10 @@ const tailFormItemLayout = {
   },
 }
 
-interface SignupValues {
-  email: string
-  password: string
-  confirm: string
-  nickname: string
-  agreement: Boolean
-}
-
 const SignupForm = () => {
   const [form] = Form.useForm()
 
-  const onFinish = async (values: SignupValues) => {
+  const onFinish = async (values: SignUpRequestData) => {
     console.log("Received values of form: ", values)
     if (!values.agreement) {
       return alert("이용약관 동의를 눌러주세요!")
