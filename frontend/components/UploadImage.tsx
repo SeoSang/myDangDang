@@ -1,8 +1,8 @@
-import React from "react"
+import React, { useState } from "react"
 import { Upload, message } from "antd"
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons"
 
-function getBase64(img, callback) {
+const getBase64 = async (img: Blob, callback) => {
   const reader = new FileReader()
   reader.addEventListener("load", () => callback(reader.result))
   reader.readAsDataURL(img)
@@ -20,50 +20,50 @@ function beforeUpload(file: File) {
   return isJpgOrPng && isLt2M
 }
 
-class Avatar extends React.Component {
-  state = {
-    loading: false,
-  }
+const Avatar = (imageUploaded) => {
+  const [loading, setLoading] = useState(false)
+  const [imgSrc, setimgSrc] = useState("")
 
-  handleChange = info => {
-    if (info.file.status === "uploading") {
-      this.setState({ loading: true })
-      return
-    }
-    if (info.file.status === "done") {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, imageUrl =>
-        this.setState({
-          imageUrl,
-          loading: false,
-        }),
-      )
+  const handleChange = (info) => {
+    try {
+      if (info.file.status === "uploading") {
+        setLoading(true)
+        return
+      }
+      if (info.file.status === "done") {
+        // Get this url from response in real world.
+        getBase64(info.file.originFileObj, (imgSrc: string) => {
+          setimgSrc(imgSrc)
+          setLoading(false)
+        })
+      }
+      console.log(imgSrc)
+      imageUploaded(imgSrc)
+    } catch (e) {
+      console.error(e)
     }
   }
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div>Upload</div>
+    </div>
+  )
 
-  render() {
-    const uploadButton = (
-      <div>
-        {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
-        <div>Upload</div>
-      </div>
-    )
-    const { imageUrl }: any = this.state
-    return (
-      <div style={{ display: "inline-block", textAlign: "center" }}>
-        <Upload
-          name='avatar'
-          listType='picture-card'
-          showUploadList={false}
-          beforeUpload={beforeUpload}
-          onChange={this.handleChange}
-          className='avatar-uploader'
-        >
-          {imageUrl ? <img src={imageUrl} alt='avatar' style={{ width: "100%" }} /> : uploadButton}
-        </Upload>
-      </div>
-    )
-  }
+  return (
+    <div style={{ display: "inline-block", textAlign: "center" }}>
+      <Upload
+        name='avatar'
+        listType='picture-card'
+        showUploadList={false}
+        beforeUpload={beforeUpload}
+        onChange={handleChange}
+        className='avatar-uploader'
+      >
+        {imgSrc ? <img src={imgSrc} alt='avatar' style={{ width: "100%" }} /> : uploadButton}
+      </Upload>
+    </div>
+  )
 }
 
 export default Avatar

@@ -4,19 +4,19 @@ import { Menu, Row, Col, Typography } from "antd"
 import { HeartOutlined, TrophyOutlined, TeamOutlined } from "@ant-design/icons"
 import Link from "next/link"
 const { SubMenu } = Menu
-const { Title } = Typography
 
-const MenuLink = styled.a`
+export const MenuLink = styled.a`
   display: inline-block;
   margin: 1rem;
 `
 
-const TitleDiv = styled.div`
+export const TitleDiv = styled.div`
   border: 1px solid;
   background: white;
   text-align: center;
   font-family: Lilita One;
   font-size: 2rem;
+  cursor: pointer;
 `
 export const PageDiv = styled.div`
   padding: 30px;
@@ -47,11 +47,13 @@ const AppLayout: FC<{ children: any }> = ({ children }) => {
       </Row>
       <Row>
         <Col xs={24} md={8}>
-          <TitleDiv>
-            <span style={{ color: "#eb4d4b" }}>My</span>
-            <span style={{ color: "#f0932b" }}>Dang</span>
-            <span style={{ color: "#f9ca24" }}>Dang</span>
-          </TitleDiv>
+          <Link href='/'>
+            <TitleDiv>
+              <span style={{ color: "#eb4d4b" }}>My</span>
+              <span style={{ color: "#f0932b" }}>Dang</span>
+              <span style={{ color: "#f9ca24" }}>Dang</span>
+            </TitleDiv>
+          </Link>
         </Col>
         <Col xs={24} md={16}>
           <Menu selectedKeys={[]} mode='horizontal'>

@@ -29,6 +29,7 @@ function* login(action: LoginRequestAction) {
       type: LOG_IN_SUCCESS,
       data: result,
     })
+    yield alert("회원가입에 성공했습니다!")
   } catch (e) {
     console.error(e)
     yield put({

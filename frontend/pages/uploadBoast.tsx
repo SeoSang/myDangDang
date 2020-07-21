@@ -45,6 +45,11 @@ const UploadBoast = () => {
     },
     [text],
   )
+
+  const imageUploaded = (img) => {
+    console.log(img)
+  }
+
   return (
     <div style={{ backgroundColor: "#FAFAFA" }}>
       <Row>
@@ -60,7 +65,7 @@ const UploadBoast = () => {
             </div>
             <Row gutter={16}>
               <Col span={10}>
-                <UploadImage></UploadImage>
+                <UploadImage imageUploaded={imageUploaded}></UploadImage>
                 <div>이미지추가</div>
               </Col>
               <Col span={14} style={{ display: "inline-block" }}>
