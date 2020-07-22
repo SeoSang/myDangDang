@@ -1,8 +1,9 @@
 import React, { useState } from "react"
 import { Upload, message } from "antd"
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons"
+import { UploadChangeParam } from "antd/lib/upload"
 
-const getBase64 = async (img: Blob, callback) => {
+export const getBase64 = async (img: Blob, callback: any) => {
   const reader = new FileReader()
   reader.addEventListener("load", () => callback(reader.result))
   reader.readAsDataURL(img)
@@ -20,32 +21,15 @@ function beforeUpload(file: File) {
   return isJpgOrPng && isLt2M
 }
 
-const Avatar = (imageUploaded) => {
-  const [loading, setLoading] = useState(false)
-  const [imgSrc, setimgSrc] = useState("")
+interface UploadImageProps {
+  handleChange: any
+  image_64: string
+}
 
-  const handleChange = (info) => {
-    try {
-      if (info.file.status === "uploading") {
-        setLoading(true)
-        return
-      }
-      if (info.file.status === "done") {
-        // Get this url from response in real world.
-        getBase64(info.file.originFileObj, (imgSrc: string) => {
-          setimgSrc(imgSrc)
-          setLoading(false)
-        })
-      }
-      console.log(imgSrc)
-      imageUploaded(imgSrc)
-    } catch (e) {
-      console.error(e)
-    }
-  }
+const Avatar = (props: UploadImageProps) => {
+  const { handleChange, image_64 } = props
   const uploadButton = (
     <div>
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
       <div>Upload</div>
     </div>
   )
@@ -60,7 +44,11 @@ const Avatar = (imageUploaded) => {
         onChange={handleChange}
         className='avatar-uploader'
       >
-        {imgSrc ? <img src={imgSrc} alt='avatar' style={{ width: "100%" }} /> : uploadButton}
+        {image_64 !== "" ? (
+          <img src={image_64} alt='avatar' style={{ width: "100%" }} />
+        ) : (
+          uploadButton
+        )}
       </Upload>
     </div>
   )

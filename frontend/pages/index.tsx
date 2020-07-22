@@ -1,5 +1,6 @@
 import Head from "next/head"
 import React from "react"
+import Link from "next/link"
 import { TitleDiv } from "../components/AppLayout"
 import styled from "styled-components"
 
@@ -40,9 +41,15 @@ const Home = () => (
         <h1 style={{ display: "inline-block", color: "#f9ca24" }}>Dang</h1>
       </IndexTitleDiv>
       <IndexUl>
-        <IndexLi>나만의 이쁜 댕댕이를 자랑하고 공유하세요~</IndexLi>
-        <IndexLi>귀여운 댕댕이들을 구경하세요! </IndexLi>
-        <IndexLi>댕댕이 상식 퀴즈 ~!</IndexLi>
+        <Link href='/boast'>
+          <IndexLi>나만의 이쁜 댕댕이를 자랑하고 공유하세요~</IndexLi>
+        </Link>
+        <Link href='/randomdog'>
+          <IndexLi>귀여운 댕댕이들을 구경하세요! </IndexLi>
+        </Link>
+        <Link href='/quiz'>
+          <IndexLi>댕댕이 상식 퀴즈 ~!</IndexLi>
+        </Link>
       </IndexUl>
     </main>
   </div>
