@@ -52,7 +52,7 @@ function* uploadImages(action: UploadImagesRequestAction) {
     const result = yield call(uploadImagesAPI, action.data)
     yield put({
       type: UPLOAD_IMAGES_SUCCESS,
-      data: result.data, // image 주소
+      data: result.data, // image 주소들
     })
   } catch (e) {
     yield put({
@@ -66,7 +66,7 @@ function* watchUploadImages() {
 }
 
 function uploadImageAPI(imageData: ImageData) {
-  return axios.post(`/post/images`, imageData)
+  return axios.post(`/post/image`, imageData)
 }
 function* uploadImage(action: UploadImageRequestAction) {
   try {

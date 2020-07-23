@@ -10,7 +10,8 @@ import {
   UPLOAD_IMAGES_REQUEST,
   UPLOAD_IMAGE_REQUEST,
 } from "../custom/types/reducerTypes_post"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { StoreState } from "../custom/types/general"
 
 export const RoundWhiteDiv = styled.div`
   padding: 20px;
@@ -41,19 +42,21 @@ const UploadBoast = () => {
   const [text, setText] = useState("")
   const [image_avail, setImage_avail] = useState(false)
   const [image_64, setImage_64] = useState("")
+  const { isAddingPost, imagePath } = useSelector((state: StoreState) => state.post)
   const dispatch = useDispatch()
 
   const onSubmitFormSuccess = useCallback(() => {
     message.success("게시글 작성에 성공했습니다!", 5)
   }, [])
 
-  const onSubmitForm = (values: null) => {
+  const onSubmitForm = (values: any) => {
     // antd values 방식을 쓰지 않는다.
     if (image_avail === false || text === "" || title === "") {
       alert("입력이 안된 칸이 있습니다!")
       return
     }
     const formData = new FormData()
+    formData.append("image", imagePath)
     formData.append("description", text)
     formData.append("title", title)
     dispatch({
