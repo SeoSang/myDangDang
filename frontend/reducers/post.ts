@@ -11,12 +11,16 @@ import {
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   ADD_POST_FAILURE,
+  LOAD_POST_REQUEST,
+  LOAD_POST_SUCCESS,
+  LOAD_POST_FAILURE,
+  LOAD_POSTS_REQUEST,
+  LOAD_POSTS_SUCCESS,
+  LOAD_POSTS_FAILURE,
 } from "../custom/types/reducerTypes_post"
 
 export const initialState: PostState = {
   mainPosts: [],
-  imagePath: "",
-  imagePaths: [],
   addPostErrorReason: "", // 포스트 업로드 실패 사유
   isAddingPost: false, // 포스트 업로드 중
   postAdded: false, // 포스트 업로드 성공
@@ -27,6 +31,10 @@ export const initialState: PostState = {
   unlikeErrorReason: "",
   hasMorePost: true,
   singlePost: null,
+  isLoadingPost: false,
+  // image
+  imagePath: "",
+  imagePaths: [],
 }
 
 const reducer = (state = initialState, action: PostActionTypes) => {
@@ -51,6 +59,36 @@ const reducer = (state = initialState, action: PostActionTypes) => {
         draft.addPostErrorReason = action.error
         break
       }
+
+      case LOAD_POST_REQUEST: {
+        draft.isLoadingPost = true
+        draft.mainPosts = []
+        break
+      }
+      case LOAD_POST_SUCCESS: {
+        draft.mainPosts = [action.data]
+        draft.isLoadingPost = false
+        break
+      }
+      case LOAD_POST_FAILURE: {
+        draft.isLoadingPost = false
+        break
+      }
+      case LOAD_POSTS_REQUEST: {
+        draft.isLoadingPost = true
+        draft.mainPosts = []
+        break
+      }
+      case LOAD_POSTS_SUCCESS: {
+        draft.mainPosts = action.data
+        draft.isLoadingPost = false
+        break
+      }
+      case LOAD_POSTS_FAILURE: {
+        draft.isLoadingPost = false
+        break
+      }
+
       case UPLOAD_IMAGE_REQUEST: {
         break
       }

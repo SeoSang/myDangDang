@@ -5,7 +5,7 @@ import {
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   ADD_POST_FAILURE,
-  PostData,
+  DangDangPost,
   UPLOAD_IMAGES_REQUEST,
   UPLOAD_IMAGES_FAILURE,
   UPLOAD_IMAGES_SUCCESS,
@@ -15,12 +15,20 @@ import {
   UPLOAD_IMAGE_REQUEST,
   UPLOAD_IMAGE_SUCCESS,
   UPLOAD_IMAGE_FAILURE,
+  LOAD_POST_REQUEST,
+  LOAD_POST_FAILURE,
+  LOAD_POST_SUCCESS,
+  LoadPostRequestAction,
+  LoadPostsRequestAction,
+  LOAD_POSTS_REQUEST,
+  LOAD_POSTS_SUCCESS,
+  LOAD_POSTS_FAILURE,
 } from "../custom/types/reducerTypes_post"
 import { BACKEND_URL } from "../custom/types/general"
 
 axios.defaults.baseURL = `${BACKEND_URL}/api`
 
-function addPostAPI(postData: PostData) {
+function addPostAPI(postData: DangDangPost) {
   return axios.post("/post", postData)
 }
 
@@ -42,6 +50,54 @@ function* addPost(action: AddPostRequestAction) {
 
 function* watchAddPost() {
   yield takeLatest(ADD_POST_REQUEST, addPost)
+}
+
+function loadPostAPI(userId: number) {
+  return axios.get(`/post/${userId}`)
+}
+
+function* loadPost(action: LoadPostRequestAction) {
+  try {
+    const result = yield call(loadPostAPI, action.postId!)
+    yield put({
+      type: LOAD_POST_SUCCESS,
+      data: result.data,
+    })
+  } catch (e) {
+    console.error(e)
+    yield put({
+      type: LOAD_POST_FAILURE,
+      error: e,
+    })
+  }
+}
+
+function* watchLoadPost() {
+  yield takeLatest(LOAD_POST_REQUEST, loadPost)
+}
+
+function loadPostsAPI() {
+  return axios.get(`/posts`)
+}
+
+function* loadPosts(action: LoadPostsRequestAction) {
+  try {
+    const result = yield call(loadPostsAPI)
+    yield put({
+      type: LOAD_POSTS_SUCCESS,
+      data: result.data,
+    })
+  } catch (e) {
+    console.error(e)
+    yield put({
+      type: LOAD_POSTS_FAILURE,
+      error: e,
+    })
+  }
+}
+
+function* watchLoadsPost() {
+  yield takeLatest(LOAD_POSTS_REQUEST, loadPosts)
 }
 
 function uploadImagesAPI(imageData: ImageData) {
@@ -87,5 +143,11 @@ function* watchUploadImage() {
 }
 
 export default function* postSaga() {
-  yield all([fork(watchAddPost), fork(watchUploadImages), fork(watchUploadImage)])
+  yield all([
+    fork(watchAddPost),
+    fork(watchUploadImages),
+    fork(watchUploadImage),
+    fork(watchLoadPost),
+    fork(watchLoadsPost),
+  ])
 }
