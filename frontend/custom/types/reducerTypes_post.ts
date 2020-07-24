@@ -46,6 +46,7 @@ export interface PostState {
 export interface DangDangPost {
   id: number
   title: string
+  imgSrc: string
   description: string
   userId?: number
   image?: Image

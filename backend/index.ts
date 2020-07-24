@@ -33,6 +33,7 @@ if (IS_PRODUCTION) {
   )
 }
 
+app.use("/dangdangs", express.static("dangdangs"))
 app.use("/api/user", userRouter)
 app.use("/api/post", postRouter)
 

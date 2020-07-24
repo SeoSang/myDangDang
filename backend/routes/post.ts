@@ -27,7 +27,16 @@ router.post("/image", upload.single("image"), (req, res) => {
   res.json(req.file.path)
 })
 
-router.get("/", (req, res) => {})
+router.get("/", async (req, res) => {
+  try {
+    const posts = await post.findAll({})
+    console.log("routes__post.ts__posts = ")
+    console.log(posts)
+    res.json(posts)
+  } catch (e) {
+    console.error(e)
+  }
+})
 router.get("/:id", (req, res) => {})
 router.post("/", upload.none(), async (req: CustomRequest, res, next) => {
   try {
