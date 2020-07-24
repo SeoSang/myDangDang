@@ -77,7 +77,7 @@ function* watchLoadPost() {
 }
 
 function loadPostsAPI() {
-  return axios.get(`/posts`)
+  return axios.get(`/post`)
 }
 
 function* loadPosts(action: LoadPostsRequestAction) {

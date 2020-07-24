@@ -26,7 +26,7 @@ export interface Image {
 }
 
 export interface PostState {
-  mainPosts: Array<DangDangPost>
+  dangdangPosts: Array<DangDangPost>
   addPostErrorReason: string | null
   singlePost: DangDangPost | null
   isAddingPost: boolean

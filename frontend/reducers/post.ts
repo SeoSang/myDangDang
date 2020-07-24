@@ -20,7 +20,7 @@ import {
 } from "../custom/types/reducerTypes_post"
 
 export const initialState: PostState = {
-  mainPosts: [],
+  dangdangPosts: [],
   addPostErrorReason: "", // 포스트 업로드 실패 사유
   isAddingPost: false, // 포스트 업로드 중
   postAdded: false, // 포스트 업로드 성공
@@ -48,7 +48,7 @@ const reducer = (state = initialState, action: PostActionTypes) => {
       }
       case ADD_POST_SUCCESS: {
         draft.isAddingPost = false
-        draft.mainPosts.unshift(action.data)
+        draft.dangdangPosts.unshift(action.data)
         draft.postAdded = true
         draft.imagePaths = []
         draft.imagePath = ""
@@ -62,11 +62,11 @@ const reducer = (state = initialState, action: PostActionTypes) => {
 
       case LOAD_POST_REQUEST: {
         draft.isLoadingPost = true
-        draft.mainPosts = []
+        draft.dangdangPosts = []
         break
       }
       case LOAD_POST_SUCCESS: {
-        draft.mainPosts = [action.data]
+        draft.dangdangPosts = [action.data]
         draft.isLoadingPost = false
         break
       }
@@ -76,11 +76,11 @@ const reducer = (state = initialState, action: PostActionTypes) => {
       }
       case LOAD_POSTS_REQUEST: {
         draft.isLoadingPost = true
-        draft.mainPosts = []
+        draft.dangdangPosts = []
         break
       }
       case LOAD_POSTS_SUCCESS: {
-        draft.mainPosts = action.data
+        draft.dangdangPosts = draft.dangdangPosts.concat(action.data)
         draft.isLoadingPost = false
         break
       }

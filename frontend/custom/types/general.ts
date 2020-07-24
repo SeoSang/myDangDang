@@ -1,5 +1,7 @@
 import { UserActionTypes, UserState } from "./reducerTypes_user"
 import { PostActionTypes, PostState } from "./reducerTypes_post"
+import { NextPageContext } from "next"
+import { Store } from "redux"
 
 export type AllActionTypes = UserActionTypes | PostActionTypes
 
@@ -9,4 +11,9 @@ export const BACKEND_URL =
 export interface StoreState {
   user: UserState
   post: PostState
+}
+
+export interface Context extends NextPageContext {
+  // store : {getState() : StoreState}
+  store: Store
 }
