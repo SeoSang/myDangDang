@@ -34,8 +34,8 @@ async function doStuffWithUser() {
 postInit(sequelize)
 userInit(sequelize)
 
-export const user = User
-export const post = Post
+export const users = User
+export const posts = Post
 db.sequelize = sequelize
 
 export default db

@@ -1,11 +1,12 @@
 import express, { Request } from "express"
 import multer from "multer"
 import path from "path"
-import { post, user } from "../models"
+import { posts, users } from "../models"
 import { User } from "../models/user"
 
-interface CustomRequest extends Request {
-  user?: User
+export interface CustomRequest extends Request {
+  user?: any
+  _passport?: any
 }
 
 const router = express.Router()
@@ -29,10 +30,8 @@ router.post("/image", upload.single("image"), (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const posts = await post.findAll({})
-    console.log("routes__post.ts__posts = ")
-    console.log(posts)
-    res.json(posts)
+    const main_posts = await posts.findAll({})
+    res.json(main_posts)
   } catch (e) {
     console.error(e)
   }
@@ -40,7 +39,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", (req, res) => {})
 router.post("/", upload.none(), async (req: CustomRequest, res, next) => {
   try {
-    const newPost = await post.create({
+    const newPost = await posts.create({
       title: req.body.title, // ex) '제로초 파이팅 #구독 #좋아요 눌러주세요'
       ownerId: req.user ? req.user.id : 1,
       imgSrc: req.body.image,

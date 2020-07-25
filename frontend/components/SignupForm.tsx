@@ -31,7 +31,7 @@ const SignupForm = () => {
   const [form] = Form.useForm()
   const dispatch = useDispatch()
 
-  const onFinish = (values: SignUpRequestData) => {
+  const onFinish = (values: any) => {
     console.log("Received values of form: ", values)
     if (!values.agreement) {
       return alert("이용약관 동의를 눌러주세요!")

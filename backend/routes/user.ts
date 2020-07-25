@@ -1,5 +1,5 @@
 import express from "express"
-import { user } from "../models"
+import { users } from "../models"
 import bcypt from "bcrypt"
 const router = express.Router()
 
@@ -10,8 +10,7 @@ router.get("/:id", (req, res) => {})
 // 회원가입
 router.post("/signup", async (req: express.Request, res, next) => {
   try {
-    console.log("routes__user.ts")
-    const exUser = await user.findOne({
+    const exUser = await users.findOne({
       where: {
         email: req.body.email,
       },
@@ -21,7 +20,7 @@ router.post("/signup", async (req: express.Request, res, next) => {
       return res.status(403).send("이미 사용중인 아이디입니다.")
     }
     const hashedPassword = await bcypt.hash(req.body.password, 12)
-    const newUser = await user.create({
+    const newUser = await users.create({
       email: req.body.email,
       password: hashedPassword,
       nickname: req.body.nickname,
