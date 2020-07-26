@@ -7,6 +7,7 @@ import {
   SIGN_UP_REQUEST,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAILURE,
+  RESET_EXCPEPT_USER,
 } from "../custom/types/reducerTypes_user"
 import produce from "immer"
 
@@ -25,6 +26,16 @@ export const initialState: UserState = {
 const reducer = (state = initialState, action: UserActionTypes) => {
   return produce(state, (draft) => {
     switch (action.type) {
+      case RESET_EXCPEPT_USER:
+        draft.isEditingNickname = false
+        draft.isSignedUp = false
+        draft.isSigningUp = false
+        draft.signUpErrorReason = ""
+        draft.userInfo = null
+        draft.isLoggingIn = false
+        draft.isLoggingOut = false
+        draft.loginErrorReason = ""
+        break
       case LOG_IN_REQUEST:
         draft.isLoggingIn = true
         draft.loginErrorReason = ""

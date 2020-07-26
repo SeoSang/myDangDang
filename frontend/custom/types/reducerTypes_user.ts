@@ -1,4 +1,6 @@
 // 로그인
+export const RESET_EXCPEPT_USER = "RESET_EXCPEPT_USER" as const
+
 export const LOG_IN_REQUEST = "LOG_IN_REQUEST" as const
 export const LOG_IN_SUCCESS = "LOG_IN_SUCCESS" as const
 export const LOG_IN_FAILURE = "LOG_IN_FAILURE" as const
@@ -19,6 +21,9 @@ export interface SignUpRequestData {
   agreement: Boolean
 }
 
+export interface ResetExceptUserAction {
+  type: typeof RESET_EXCPEPT_USER
+}
 export interface LoginRequestAction {
   type: typeof LOG_IN_REQUEST
   data: LoginRequestData
@@ -46,6 +51,7 @@ export interface SignUpFailureAction {
 }
 
 export type UserActionTypes =
+  | ResetExceptUserAction
   | LoginRequestAction
   | LoginSuccessAction
   | LoginFailureAction

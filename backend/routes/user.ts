@@ -29,6 +29,7 @@ router.post("/login", (req, res, next) => {
           include: [
             {
               model: posts as any,
+              as: "posts",
               attributes: ["id"],
             },
           ],

@@ -3,6 +3,8 @@ import React from "react"
 import Link from "next/link"
 import { TitleDiv } from "../components/AppLayout"
 import styled from "styled-components"
+import { Context } from "../custom/types/general"
+import { RESET_EXCPEPT_USER } from "../custom/types/reducerTypes_user"
 
 export const IndexTitleDiv = styled(TitleDiv)`
   border: none;
@@ -54,5 +56,12 @@ const Home = () => (
     </main>
   </div>
 )
+
+Home.getInitialProps = async (context: Context) => {
+  context.store.dispatch({
+    type: RESET_EXCPEPT_USER,
+  })
+  return
+}
 
 export default Home

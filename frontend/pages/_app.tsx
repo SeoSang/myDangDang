@@ -10,7 +10,7 @@ import { StoreState } from "../reducers"
 import rootSaga from "../sagas"
 
 import { Middleware, applyMiddleware, compose, createStore } from "redux"
-import { AllActionTypes } from "../custom/types/general"
+import { AllActionTypes, Context } from "../custom/types/general"
 import reducer from "../reducers"
 
 const MyDangDang = ({ Component, store, pageProps }) => {
@@ -44,7 +44,7 @@ const MyDangDang = ({ Component, store, pageProps }) => {
   )
 }
 
-MyDangDang.getInitialProps = async (context) => {
+MyDangDang.getInitialProps = async (context: any) => {
   // 제일먼저 실행되는 사이클 (프론트, 서버 둘다 실행됨)
   const { ctx } = context
 

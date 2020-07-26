@@ -19,6 +19,7 @@ const index = () => {
         include: [
           {
             model: posts as any,
+            as: "posts",
             attributes: ["id"],
           },
         ],

@@ -1,8 +1,10 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Form, Input, Tooltip, Select, Row, Col, Checkbox, Button } from "antd"
 import { QuestionCircleOutlined } from "@ant-design/icons"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { SignUpRequestData, SIGN_UP_REQUEST } from "../custom/types/reducerTypes_user"
+import { StoreState } from "../custom/types/general"
+import { useRouter } from "next/router"
 
 const formItemLayout = {
   labelCol: {
@@ -29,6 +31,8 @@ const tailFormItemLayout = {
 
 const SignupForm = () => {
   const [form] = Form.useForm()
+  const { isSignedUp } = useSelector((state: StoreState) => state.user)
+  const router = useRouter()
   const dispatch = useDispatch()
 
   const onFinish = (values: any) => {
@@ -41,6 +45,13 @@ const SignupForm = () => {
       data: values,
     })
   }
+
+  useEffect(() => {
+    if (isSignedUp) {
+      alert("회원가입이 완료되어 메인으로 돌아갑니다!")
+      router.push("/index")
+    }
+  }, [isSignedUp])
 
   return (
     <Form

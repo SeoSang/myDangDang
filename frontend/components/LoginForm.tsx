@@ -21,14 +21,14 @@ const tailLayout = {
 }
 
 const LoginForm = () => {
-  const { me } = useSelector((state: StoreState) => state.user)
+  const { me, isLoggingIn } = useSelector((state: StoreState) => state.user)
   const router = useRouter()
   const dispatch = useDispatch()
   const onFinish = (values: any) => {
     console.log("Success:", values)
     dispatch({
       type: LOG_IN_REQUEST,
-      data: values,
+      data: { email: values.email, password: values.password },
     })
   }
 
@@ -37,7 +37,7 @@ const LoginForm = () => {
       alert("이미 로그인 된 상태입니다!")
       router.push("/")
     }
-  }, [me])
+  }, [me && me.id])
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo)
@@ -72,7 +72,12 @@ const LoginForm = () => {
       </Form.Item>
 
       <Form.Item {...tailLayout}>
-        <Button type='primary' htmlType='submit' style={{ marginRight: "1rem" }}>
+        <Button
+          type='primary'
+          htmlType='submit'
+          style={{ marginRight: "1rem" }}
+          loading={isLoggingIn}
+        >
           로그인
         </Button>
         <Button type='primary'>
