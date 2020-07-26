@@ -1,12 +1,46 @@
 import express from "express"
-import { users } from "../models"
+import { users, posts } from "../models"
 import bcypt from "bcrypt"
+import passport from "passport"
 const router = express.Router()
 
 router.get("/", (req, res) => {})
 
 router.get("/:id", (req, res) => {})
 
+// 로그인
+router.post("/login", (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      console.error(err)
+      return next(err)
+    }
+    if (info) {
+      console.log(info.reason)
+      return res.status(401).send(info.reason)
+    }
+    return req.login(user, async (loginErr) => {
+      try {
+        if (loginErr) {
+          return next(loginErr)
+        }
+        const fullUser = await users.findOne({
+          where: { id: user.id },
+          include: [
+            {
+              model: posts as any,
+              attributes: ["id"],
+            },
+          ],
+          attributes: ["id", "nickname", "email"],
+        })
+        return res.json(fullUser)
+      } catch (e) {
+        next(e)
+      }
+    })
+  })(req, res, next)
+})
 // 회원가입
 router.post("/signup", async (req: express.Request, res, next) => {
   try {

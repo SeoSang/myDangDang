@@ -1,4 +1,4 @@
-import { Model, Optional, DataTypes, Sequelize } from "sequelize"
+import { Model, Optional, DataTypes, Sequelize, Association } from "sequelize"
 import { User } from "./user"
 
 interface PostAttributes {
@@ -21,6 +21,9 @@ export default class Post extends Model<PostAttributes, ProjectCreationAttribute
 
   public readonly createdAt!: Date
   public readonly updatedAt!: Date
+  public static associations: {
+    owner: Association<Post, User>
+  }
 }
 
 export const postInit = (sequelize: Sequelize) => {
@@ -56,5 +59,4 @@ export const postInit = (sequelize: Sequelize) => {
       modelName: "Post", // We need to choose the model name
     },
   )
-  Post.belongsTo(User)
 }

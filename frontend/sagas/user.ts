@@ -34,7 +34,7 @@ function* login(action: LoginRequestAction) {
     console.error(e)
     yield put({
       type: LOG_IN_FAILURE,
-      error: e.response.data,
+      error: e,
     })
   }
 }

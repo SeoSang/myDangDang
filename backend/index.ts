@@ -62,7 +62,7 @@ app.use(passport.session())
 
 // ------ ajax ------------------------------------------------------------
 
-app.use(express.static("dangdangs"))
+app.use("/dangdangs", express.static("dangdangs"))
 app.use("/api/user", userRouter)
 app.use("/api/post", postRouter)
 

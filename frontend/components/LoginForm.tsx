@@ -1,6 +1,10 @@
 import { Form, Input, Button, Checkbox } from "antd"
 import * as React from "react"
 import Link from "next/link"
+import { useDispatch, useSelector } from "react-redux"
+import { LOG_IN_REQUEST } from "../custom/types/reducerTypes_user"
+import { StoreState } from "../custom/types/general"
+import { useRouter } from "next/router"
 
 const layout = {
   labelCol: {
@@ -17,11 +21,25 @@ const tailLayout = {
 }
 
 const LoginForm = () => {
-  const onFinish = values => {
+  const { me } = useSelector((state: StoreState) => state.user)
+  const router = useRouter()
+  const dispatch = useDispatch()
+  const onFinish = (values: any) => {
     console.log("Success:", values)
+    dispatch({
+      type: LOG_IN_REQUEST,
+      data: values,
+    })
   }
 
-  const onFinishFailed = errorInfo => {
+  React.useEffect(() => {
+    if (me) {
+      alert("이미 로그인 된 상태입니다!")
+      router.push("/")
+    }
+  }, [me])
+
+  const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo)
   }
 
