@@ -8,6 +8,9 @@ import {
   SIGN_UP_SUCCESS,
   SIGN_UP_FAILURE,
   RESET_EXCPEPT_USER,
+  LOAD_USER_REQUEST,
+  LOAD_USER_SUCCESS,
+  LOAD_USER_FAILURE,
 } from "../custom/types/reducerTypes_user"
 import produce from "immer"
 
@@ -48,6 +51,17 @@ const reducer = (state = initialState, action: UserActionTypes) => {
         draft.me = null
         draft.isLoggingIn = false
         draft.loginErrorReason = action.error
+        break
+      case LOAD_USER_REQUEST:
+        break
+      case LOAD_USER_SUCCESS:
+        if (action.me) {
+          draft.me = action.data
+        } else {
+          draft.userInfo = action.data
+        }
+        break
+      case LOAD_USER_FAILURE:
         break
 
       case SIGN_UP_REQUEST:

@@ -1,6 +1,10 @@
 // 로그인
 export const RESET_EXCPEPT_USER = "RESET_EXCPEPT_USER" as const
 
+export const LOAD_USER_REQUEST = "LOAD_USER_REQUEST" as const
+export const LOAD_USER_SUCCESS = "LOAD_USER_SUCCESS" as const
+export const LOAD_USER_FAILURE = "LOAD_USER_FAILURE" as const
+
 export const LOG_IN_REQUEST = "LOG_IN_REQUEST" as const
 export const LOG_IN_SUCCESS = "LOG_IN_SUCCESS" as const
 export const LOG_IN_FAILURE = "LOG_IN_FAILURE" as const
@@ -36,6 +40,19 @@ export interface LoginFailureAction {
   type: typeof LOG_IN_FAILURE
   error?: string
 }
+export interface LoadUserRequestAction {
+  type: typeof LOAD_USER_REQUEST
+  userId: number
+}
+export interface LoadUserSuccessAction {
+  type: typeof LOAD_USER_SUCCESS
+  data: UserInfo
+  me?: boolean
+}
+export interface LoadUserFailureAction {
+  type: typeof LOAD_USER_FAILURE
+  error?: string
+}
 
 export interface SignUpRequestAction {
   type: typeof SIGN_UP_REQUEST
@@ -55,6 +72,9 @@ export type UserActionTypes =
   | LoginRequestAction
   | LoginSuccessAction
   | LoginFailureAction
+  | LoadUserRequestAction
+  | LoadUserSuccessAction
+  | LoadUserFailureAction
   | SignUpRequestAction
   | SignUpSuccessAction
   | SignUpFailureAction

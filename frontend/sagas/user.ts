@@ -10,6 +10,10 @@ import {
   SIGN_UP_SUCCESS,
   SIGN_UP_FAILURE,
   SIGN_UP_REQUEST,
+  LoadUserRequestAction,
+  LOAD_USER_REQUEST,
+  LOAD_USER_SUCCESS,
+  LOAD_USER_FAILURE,
 } from "../custom/types/reducerTypes_user"
 import axios from "axios"
 import { BACKEND_URL } from "../custom/types/general"
@@ -29,7 +33,6 @@ function* login(action: LoginRequestAction) {
       type: LOG_IN_SUCCESS,
       data: result,
     })
-    yield alert("로그인에 성공했습니다!")
   } catch (e) {
     console.error(e)
     yield put({
@@ -49,9 +52,7 @@ function signUpAPI(signUpData: SignUpRequestData) {
 
 function* signUp(action: SignUpRequestAction) {
   try {
-    yield console.log("beforeAPI!!!!!!")
     yield call(signUpAPI, action.data)
-    yield console.log("here!!!!!!")
     yield put({
       type: SIGN_UP_SUCCESS,
     })
@@ -70,6 +71,31 @@ function* watchSignup() {
   yield takeLatest(SIGN_UP_REQUEST, signUp)
 }
 
+function loadUserAPI(userId: number) {
+  return axios.get(`/user/${userId}`, { withCredentials: true })
+}
+
+function* loadUser(action: LoadUserRequestAction) {
+  try {
+    const result = yield call(loadUserAPI, action.userId)
+    yield put({
+      type: LOAD_USER_SUCCESS,
+      data: result.data,
+      me: action.userId == -1 ? true : false,
+    })
+  } catch (e) {
+    console.error(e)
+    yield put({
+      type: LOAD_USER_FAILURE,
+      error: e,
+    })
+  }
+}
+
+function* watchLoadUser() {
+  yield takeLatest(LOAD_USER_REQUEST, loadUser)
+}
+
 export default function* userSaga() {
-  yield all([fork(watchLogin), fork(watchSignup)])
+  yield all([fork(watchLogin), fork(watchSignup), fork(watchLoadUser)])
 }

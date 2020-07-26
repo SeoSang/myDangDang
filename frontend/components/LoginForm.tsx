@@ -34,7 +34,7 @@ const LoginForm = () => {
 
   React.useEffect(() => {
     if (me) {
-      alert("이미 로그인 된 상태입니다!")
+      alert("로그인 되었으므로 메인화면으로 이동합니다.")
       router.push("/")
     }
   }, [me && me.id])

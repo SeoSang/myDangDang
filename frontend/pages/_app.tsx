@@ -8,12 +8,19 @@ import createSagaMiddleware from "redux-saga"
 import "../components/UploadImage.css"
 import { StoreState } from "../reducers"
 import rootSaga from "../sagas"
+import axios from "axios"
 
-import { Middleware, applyMiddleware, compose, createStore } from "redux"
+import { Middleware, applyMiddleware, compose, createStore, Store } from "redux"
 import { AllActionTypes, Context } from "../custom/types/general"
 import reducer from "../reducers"
+import { AppPropsType } from "next/dist/next-server/lib/utils"
+import { LOAD_USER_REQUEST } from "../custom/types/reducerTypes_user"
 
-const MyDangDang = ({ Component, store, pageProps }) => {
+export interface MyAppPropsType extends AppPropsType {
+  store: Store
+}
+
+const MyDangDang = ({ Component, store, pageProps }: MyAppPropsType) => {
   return (
     <Provider store={store}>
       <Head>
@@ -47,7 +54,17 @@ const MyDangDang = ({ Component, store, pageProps }) => {
 MyDangDang.getInitialProps = async (context: any) => {
   // 제일먼저 실행되는 사이클 (프론트, 서버 둘다 실행됨)
   const { ctx } = context
-
+  const state = ctx.store.getState()
+  const cookie = ctx.isServer ? ctx.req.headers.cookie : ""
+  if (ctx.isServer && cookie) {
+    axios.defaults.headers.Cookie = cookie // 모든 axios 에 적용
+  }
+  if (!state.user.me) {
+    ctx.store.dispatch({
+      type: LOAD_USER_REQUEST,
+      userId: -1,
+    })
+  }
   let pageProps = {}
   if (context.Component.getInitialProps) {
     pageProps = await context.Component.getInitialProps(ctx)
