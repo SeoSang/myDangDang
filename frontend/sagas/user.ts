@@ -14,6 +14,9 @@ import {
   LOAD_USER_REQUEST,
   LOAD_USER_SUCCESS,
   LOAD_USER_FAILURE,
+  LOG_OUT_SUCCESS,
+  LOG_OUT_FAILURE,
+  LOG_OUT_REQUEST,
 } from "../custom/types/reducerTypes_user"
 import axios from "axios"
 import { BACKEND_URL } from "../custom/types/general"
@@ -31,7 +34,7 @@ function* login(action: LoginRequestAction) {
     const result = yield call(loginAPI, action.data)
     yield put({
       type: LOG_IN_SUCCESS,
-      data: result,
+      data: result.data,
     })
   } catch (e) {
     console.error(e)
@@ -71,6 +74,29 @@ function* watchSignup() {
   yield takeLatest(SIGN_UP_REQUEST, signUp)
 }
 
+function logoutAPI() {
+  return axios.post("/user/logout")
+}
+
+function* logOut() {
+  try {
+    yield call(logoutAPI)
+    yield put({
+      type: LOG_OUT_SUCCESS,
+    })
+    yield alert("로그아웃이 완료되었습니다!")
+  } catch (e) {
+    console.error(e)
+    yield put({
+      type: LOG_OUT_FAILURE,
+    })
+  }
+}
+
+function* watchLogout() {
+  yield takeLatest(LOG_OUT_REQUEST, logOut)
+}
+
 function loadUserAPI(userId: number) {
   return axios.get(`/user/${userId}`, { withCredentials: true })
 }
@@ -97,5 +123,5 @@ function* watchLoadUser() {
 }
 
 export default function* userSaga() {
-  yield all([fork(watchLogin), fork(watchSignup), fork(watchLoadUser)])
+  yield all([fork(watchLogin), fork(watchSignup), fork(watchLoadUser), fork(watchLogout)])
 }

@@ -3,8 +3,9 @@ import styled from "styled-components"
 import { Menu, Row, Col, Typography, Avatar, Drawer, Button } from "antd"
 import { HeartOutlined, TrophyOutlined, TeamOutlined } from "@ant-design/icons"
 import Link from "next/link"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { StoreState } from "../custom/types/general"
+import { LOG_OUT_REQUEST } from "../custom/types/reducerTypes_user"
 const { SubMenu } = Menu
 
 export const MenuLink = styled.a`
@@ -41,6 +42,7 @@ export const BackgroundDiv = styled.div`
 
 const AppLayout: FC<{ children: any }> = ({ children }) => {
   const { me } = useSelector((state: StoreState) => state.user)
+  const dispatch = useDispatch()
   const [visible, setVisible] = useState(false)
   const showDrawer = () => {
     if (me && me.id) {
@@ -50,13 +52,28 @@ const AppLayout: FC<{ children: any }> = ({ children }) => {
   const onClose = () => {
     setVisible(false)
   }
+  const onClickMyInfo = () => {}
+
+  const onClickLogout = () => {
+    dispatch({
+      type: LOG_OUT_REQUEST,
+    })
+    if (me === null) {
+      setVisible(false)
+    }
+  }
+
   return (
     <>
       <Drawer title='User' placement='right' closable={false} onClose={onClose} visible={visible}>
         <h2>{me?.email}</h2>
         <h3>{me?.nickname + "님"}</h3>
-        <Button style={{ margin: "5px" }}>내 정보</Button>
-        <Button style={{ margin: "5px" }}>로그아웃</Button>
+        <Button onClick={onClickMyInfo} style={{ margin: "5px" }}>
+          내 정보
+        </Button>
+        <Button onClick={onClickLogout} style={{ margin: "5px" }}>
+          로그아웃
+        </Button>
       </Drawer>
       <Row style={{ border: "1px solid" }} justify='end' align='middle'>
         <Col xs={24} md={12}>

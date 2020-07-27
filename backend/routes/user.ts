@@ -2,15 +2,17 @@ import express from "express"
 import { users, posts } from "../models"
 import bcypt from "bcrypt"
 import passport from "passport"
+import { isLoggedIn } from "./middle"
 const router = express.Router()
 
 router.get("/", (req, res) => {})
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", isLoggedIn, async (req, res) => {
   try {
     if (parseInt(req.params.id, 10) === -1) {
       // 내 정보 불러오기
-      const jsonUser = Object.assign({}, (req.user as any).toJSON())
+      console.log("routes__user.js => req.user", req.user)
+      const jsonUser: any = Object.assign({}, (req.user as any).toJSON())
       delete jsonUser.password
       res.json(jsonUser)
     } else {
@@ -24,7 +26,7 @@ router.get("/:id", async (req, res) => {
         },
         attributes: ["id", "nickname"],
       })
-      const jsonUser: any = user!.toJSON()
+      const jsonUser: any = user?.toJSON()
       jsonUser.posts = jsonUser.posts ? jsonUser.posts.length : 0
       res.json(jsonUser)
     }
@@ -67,6 +69,14 @@ router.post("/login", (req, res, next) => {
     })
   })(req, res, next)
 })
+
+// 로그아웃
+router.post("/logout", (req, res) => {
+  req.logout()
+  req.session!.destroy(() => {})
+  res.redirect("/")
+})
+
 // 회원가입
 router.post("/signup", async (req: express.Request, res, next) => {
   try {

@@ -11,6 +11,9 @@ import {
   LOAD_USER_REQUEST,
   LOAD_USER_SUCCESS,
   LOAD_USER_FAILURE,
+  LOG_OUT_REQUEST,
+  LOG_OUT_SUCCESS,
+  LOG_OUT_FAILURE,
 } from "../custom/types/reducerTypes_user"
 import produce from "immer"
 
@@ -51,6 +54,16 @@ const reducer = (state = initialState, action: UserActionTypes) => {
         draft.me = null
         draft.isLoggingIn = false
         draft.loginErrorReason = action.error
+        break
+      case LOG_OUT_REQUEST:
+        draft.isLoggingOut = true
+        break
+      case LOG_OUT_SUCCESS:
+        draft.isLoggingOut = false
+        draft.me = null
+        break
+      case LOG_OUT_FAILURE:
+        draft.isLoggingOut = false
         break
       case LOAD_USER_REQUEST:
         break
