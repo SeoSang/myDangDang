@@ -1,13 +1,26 @@
-import React, { FC } from "react"
+import React, { FC, useState } from "react"
 import styled from "styled-components"
-import { Menu, Row, Col, Typography } from "antd"
+import { Menu, Row, Col, Typography, Avatar, Drawer, Button } from "antd"
 import { HeartOutlined, TrophyOutlined, TeamOutlined } from "@ant-design/icons"
 import Link from "next/link"
+import { useSelector } from "react-redux"
+import { StoreState } from "../custom/types/general"
 const { SubMenu } = Menu
 
 export const MenuLink = styled.a`
   display: inline-block;
   margin: 1rem;
+`
+
+export const ProfileDiv = styled.div`
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 10px;
+  background-color: #ecf0f1;
+  padding: 5px;
+  font-family: "Noto Sans KR", sans-serif;
+  font-weight: 800;
+  font-size: larger;
 `
 
 export const TitleDiv = styled.div`
@@ -27,9 +40,25 @@ export const BackgroundDiv = styled.div`
 `
 
 const AppLayout: FC<{ children: any }> = ({ children }) => {
+  const { me } = useSelector((state: StoreState) => state.user)
+  const [visible, setVisible] = useState(false)
+  const showDrawer = () => {
+    if (me && me.id) {
+      setVisible(true)
+    }
+  }
+  const onClose = () => {
+    setVisible(false)
+  }
   return (
     <>
-      <Row style={{ border: "1px solid" }}>
+      <Drawer title='User' placement='right' closable={false} onClose={onClose} visible={visible}>
+        <h2>{me?.email}</h2>
+        <h3>{me?.nickname + "님"}</h3>
+        <Button style={{ margin: "5px" }}>내 정보</Button>
+        <Button style={{ margin: "5px" }}>로그아웃</Button>
+      </Drawer>
+      <Row style={{ border: "1px solid" }} justify='end' align='middle'>
         <Col xs={24} md={12}>
           <Link href='/'>
             <MenuLink>홈으로</MenuLink>
@@ -41,8 +70,21 @@ const AppLayout: FC<{ children: any }> = ({ children }) => {
             <MenuLink>QnA</MenuLink>
           </Link>
         </Col>
-        <Col xs={24} md={12}>
-          소개
+        <Col xs={0} md={6}></Col>
+        <Col xs={24} md={6} style={{ textAlign: "end", padding: "3px" }}>
+          <ProfileDiv onClick={showDrawer}>
+            <Avatar
+              style={{
+                display: "inline-block",
+                color: "#f56a00",
+                backgroundColor: "#fde3cf",
+                marginRight: "5px",
+              }}
+            >
+              {me ? me.nickname[0] : "?"}
+            </Avatar>
+            {me ? me.nickname + " 님" : ""}
+          </ProfileDiv>
         </Col>
       </Row>
       <Row>
@@ -56,7 +98,7 @@ const AppLayout: FC<{ children: any }> = ({ children }) => {
           </Link>
         </Col>
         <Col xs={24} md={16}>
-          <Menu selectedKeys={[]} mode='horizontal'>
+          <Menu mode='horizontal'>
             <Menu.Item key='mail'>
               <Link href='/boast'>
                 <a>

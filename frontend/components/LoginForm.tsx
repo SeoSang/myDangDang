@@ -1,4 +1,4 @@
-import { Form, Input, Button, Checkbox } from "antd"
+import { Form, Input, Button, Checkbox, message } from "antd"
 import * as React from "react"
 import Link from "next/link"
 import { useDispatch, useSelector } from "react-redux"
@@ -34,7 +34,8 @@ const LoginForm = () => {
 
   React.useEffect(() => {
     if (me) {
-      alert("로그인 되었으므로 메인화면으로 이동합니다.")
+      message.success("로그인 되었으므로 메인화면으로 이동합니다")
+      // alert("로그인 되었으므로 메인화면으로 이동합니다.")
       router.push("/")
     }
   }, [me && me.id])
