@@ -10,8 +10,7 @@ export const IS_PRODUCTION = process.env.NODE_ENV === "production"
 const BoastCard: NextPage<{ card: DangDangPost }> = ({ card }) => {
   const onReviseCard = useCallback((id) => () => {}, [])
   const onRemoveCard = useCallback((id) => () => {}, [])
-  console.log(card.imgSrc)
-  console.log(`${card.imgSrc}`)
+  console.log(card)
   const popoverContent = (
     <div>
       <Button onClick={onReviseCard}>수정</Button>

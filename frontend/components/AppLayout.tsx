@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react"
+import React, { FC, useState, useCallback } from "react"
 import styled from "styled-components"
 import { Menu, Row, Col, Typography, Avatar, Drawer, Button } from "antd"
 import { HeartOutlined, TrophyOutlined, TeamOutlined } from "@ant-design/icons"
@@ -54,18 +54,34 @@ const AppLayout: FC<{ children: any }> = ({ children }) => {
   }
   const onClickMyInfo = () => {}
 
+  const test = useCallback(
+    (dispat, action, callback) => {
+      dispat(action)
+      callback()
+    },
+    [me && me.id],
+  )
   const onClickLogout = () => {
-    dispatch({
-      type: LOG_OUT_REQUEST,
+    test(dispatch, { type: LOG_OUT_REQUEST }, () => {
+      if (me === null) {
+        setVisible(false)
+      }
     })
-    if (me === null) {
-      setVisible(false)
-    }
   }
 
-  return (
-    <>
-      <Drawer title='User' placement='right' closable={false} onClose={onClose} visible={visible}>
+  const drawer_content =
+    me === null ? (
+      <>
+        <h3> 로그인을 해주세요 </h3>
+        <br></br>
+        <Link href='/login'>
+          <a>
+            <Button>로그인</Button>
+          </a>
+        </Link>
+      </>
+    ) : (
+      <>
         <h2>{me?.email}</h2>
         <h3>{me?.nickname + "님"}</h3>
         <Button onClick={onClickMyInfo} style={{ margin: "5px" }}>
@@ -74,6 +90,13 @@ const AppLayout: FC<{ children: any }> = ({ children }) => {
         <Button onClick={onClickLogout} style={{ margin: "5px" }}>
           로그아웃
         </Button>
+      </>
+    )
+
+  return (
+    <>
+      <Drawer title='User' placement='right' closable={false} onClose={onClose} visible={visible}>
+        {drawer_content}
       </Drawer>
       <Row style={{ border: "1px solid" }} justify='end' align='middle'>
         <Col xs={24} md={12}>

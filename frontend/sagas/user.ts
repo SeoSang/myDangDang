@@ -75,7 +75,7 @@ function* watchSignup() {
 }
 
 function logoutAPI() {
-  return axios.post("/user/logout")
+  return axios.post("/user/logout", {}, { withCredentials: true })
 }
 
 function* logOut() {
