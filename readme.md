@@ -12,7 +12,6 @@
 </div>
 
 <p align="center">
-  <a href="#usage">Usage</a> •
   <a href="#boast-puppy">Boast Puppy</a> •
   <a href="#random-dog">Random Dog</a> •
   <a href="#author">Author</a> •
@@ -21,13 +20,6 @@
 <br>
 
 ![메인화면](src/images/main.png)
-  
-## Usage
-
-<code>$ git clone https://github.com/SeoSang/password_inputter.git</code>
-
-Inputter.tsx 로 돼있는 컴포넌트를  
-Inputter.css 의 스타일시트와 함께 사용하시면 됩니다!
 
 ## Key-Features
 
