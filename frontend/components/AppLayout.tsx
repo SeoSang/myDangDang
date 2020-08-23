@@ -11,6 +11,8 @@ const { SubMenu } = Menu
 export const MenuLink = styled.a`
   display: inline-block;
   margin: 1rem;
+  font-weight: 600;
+  color: #da5c53;
 `
 
 export const ProfileDiv = styled.div`
@@ -101,10 +103,10 @@ const AppLayout: FC<{ children: any }> = ({ children }) => {
       <Row style={{ border: "1px solid" }} justify='end' align='middle'>
         <Col xs={24} md={12}>
           <Link href='/'>
-            <MenuLink>홈으로</MenuLink>
+            <MenuLink>Home</MenuLink>
           </Link>
           <Link href='/'>
-            <MenuLink>소개</MenuLink>
+            <MenuLink>About</MenuLink>
           </Link>
           <Link href='/'>
             <MenuLink>QnA</MenuLink>
